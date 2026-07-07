@@ -3,6 +3,7 @@ import numpy as np
 from contour_detection import contour_detection
 from grabcut import grabcut_detection
 from match_points import match_points_generation
+from hsv_detection import hsv_detect
 
 def find_contour(img):
     height = 500
@@ -23,7 +24,14 @@ def find_contour(img):
     contour = contour_detection(img, edged)
 
     if contour is not None:
+        print("Its CONTOUR DETECTION")
         return contour, ratio
+
+    contour = hsv_detect(img)
+    if contour is not None:
+        print("Its HSV")
+        return contour, ratio
+    
 
     # corners = hough_lines_detection(img, edged)
     # if corners is not None:
@@ -32,8 +40,9 @@ def find_contour(img):
 
     contour = grabcut_detection(img)
     if contour is not None:
+        print("Its GRABCUT")
         return contour, ratio
 
-
+    print("Its Match points")
     return match_points_generation(img), ratio
 
