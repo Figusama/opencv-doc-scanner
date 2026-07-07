@@ -8,7 +8,7 @@ def contour_detection(img, edged):
     doc_contour = None
     for c in contours:
         area = cv.contourArea(c)
-        if area > 0.90 * img_area:
+        if area > 0.90 * img_area or area < 0.05 * img_area:
             continue
         peri = cv.arcLength(c, True)
         approx = cv.approxPolyDP(c, 0.02 * peri, True)
