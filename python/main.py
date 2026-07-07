@@ -14,13 +14,10 @@ def process(image_path: Path):
     orig = img.copy()
 
     contour, ratio = find_contour(img)
-    print("Contour:", contour)
-    print("Ratio:", ratio)
     if contour is None:
         print("No contour found")
         return
     rect = order_points(contour) * ratio
-    print("Contour after order_points:", rect)
 
     (tl, tr, br, bl) = rect
 
@@ -42,5 +39,4 @@ def process(image_path: Path):
 
     M = cv.getPerspectiveTransform(rect, dst)
     warped = cv.warpPerspective(orig, M, (width, height))
-    cv.imshow("warped", warped)
-    cv.waitKey(0)
+    cv.imwrite(f"data/processed/processed_{os.path.basename(image_path)}", warped)
